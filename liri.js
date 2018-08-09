@@ -1,22 +1,36 @@
 require("dotenv").config();
+console.log(
+             "------------------------------------------------------------------\n"
+           + "Hello! Welcome to LIRI.\n"
+           + "To use LIRI:\n"
+           + "Type 'my-tweets' to show my latest tweets\n"
+           + "Type 'spotify-this-song' and a Song Title to get that Song's Info\n"
+           + "Type 'movie-this' and a Movie Name to get that Movie's Info\n"
+           + "Type 'do-what-it-says' to see what LIRI says\n"
+           + "------------------------------------------------------------------\n")
 
 var keys = require('./keys.js');
 
-//var spotify = new Spotify(keys.spotify);
 var Twitter = require('twitter');
 var client = new Twitter(keys.twitter);
+var Spotify = require ('node-spotify-api');
+var spotify = new Spotify(keys.spotify);
 var request = require('request');
 var fs = require('fs');
 
-//console.log(client)
-
+//Twitter SN Params
 var params = {screen_name: 'XavierP75164675'}
 
 var nodeArgs = process.argv;
-var movieName = ""
+var songName = "";
+var movieName = "";
 
 if (process.argv[2] === "my-tweets"){
     myTweets()
+}
+
+if (process.argv[2] === "spotify-this-song"){
+    spotifyThis()
 }
 
 if (process.argv[2] === "movie-this"){
@@ -40,14 +54,36 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
     }
  });
 }
-//    
-//movieThis();
+
+function spotifyThis () {
+    for (var i = 3; i < nodeArgs.length; i++) {
+  // Allows for more than one word to be inputted
+  songName = songName.concat(nodeArgs[i] + "+");
+}
+spotify
+  .search({ type: 'track', query: songName, limit:1})
+  .then(function(response) {
+    var track = response.tracks.items[0];
+        console.log(track.artists[0].name);
+        console.log(track.name);
+        console.log(track.preview_url);
+        console.log(track.album.name);
+//          console.log(response)
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+}
+
 function movieThis (){
 
-for (var i = 2; i < nodeArgs.length; i++) {
+for (var i = 3; i < nodeArgs.length; i++) {
 
   // Allows for more than one word to be inputted
-  movieName = " " + nodeArgs[i];
+  movieName = movieName.concat(nodeArgs[i] + "+");
+//      movieName = [nodeArgs[i]];
+    
+//    console.log(movieName.join('+'))
 }
 
 // OMDB Request
