@@ -41,7 +41,8 @@ var logMovie = (movie) => {
 
 for (var i = 3; i < nodeArgs.length; i++) {
     //allows for more than one word upon user input
-    userChoice = userChoice.concat(nodeArgs[i] + "+")
+    // userChoice = userChoice.concat(nodeArgs[i] + "+")
+    userChoice = process.argv.slice(3).join(" ")
 };
     //calls appropriate functions if the user types "my-tweets", "spotify-this-song", "movie-this" || "do-what-it-says"
     if (process.argv[2] === "my-tweets") {
