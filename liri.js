@@ -81,7 +81,7 @@ function spotifyThis(songName) {
         .search({
             type: 'track',
             query: songName,
-            limit: 11
+            limit: 1
         })
         .then(function (response) {
             var track = response.tracks.items[0];
