@@ -68,9 +68,9 @@ function myTweets() {
                 if (i > 19) {
                     break;
                 };
-                console.log(tweets[i].text);
-                // .replace eliminates the +0000 and a space found in each 'created_at' string, and adds a break after the date
-                console.log(tweets[i].created_at.replace('+0000 ', '').replace("", "\n"));
+                console.log(tweets[i].text.replace("", "\n"));
+                // .replace eliminates the +0000 and a space found in each 'created_at' string
+                console.log(tweets[i].created_at.replace('+0000 ', ''));
             };
         };
     });
@@ -81,7 +81,7 @@ function spotifyThis(songName) {
         .search({
             type: 'track',
             query: songName,
-            limit: 1
+            limit: 11
         })
         .then(function (response) {
             var track = response.tracks.items[0];
